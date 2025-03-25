@@ -111,4 +111,15 @@ public class UserController : Controller
         userlist.Remove(user);
         return RedirectToAction(nameof(Index));
     }
+
+    public ActionResult Search(string query)
+    {
+        // Filtrar usuarios que coincidan con el término de búsqueda
+        var results = userlist.Where(u => 
+            u.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || 
+            u.Email.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        // Retornar la vista con los resultados
+        return View("Index", results);
+    }
 }
